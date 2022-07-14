@@ -1,5 +1,4 @@
 #Creates plots of pT, eta and phi for the mu+ and mu- separately
-import ROOT
 import uproot
 import numpy as np
 import matplotlib.pyplot as plt
