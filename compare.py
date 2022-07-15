@@ -31,3 +31,40 @@ plt.title("isolation of background rich data vs. simulated QCD data")
 plt.ylabel("Normalised Counts")
 plt.xlabel("pT (GeV)")
 plt.savefig("img/compare_PTSUMCONE040")
+
+plt.figure()
+
+start = int(input("Enter the start value for small pT range: "))
+
+#subplots for the isolation each at different small ranges of pT
+fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2, 2)
+fig.suptitle("Isolation comparison at different values of pT")
+
+ax1.hist(real_PTSUMCONE040, bins = 200, range = [start, start + 5], histtype = 'step', density = True, label = "Real pT")
+ax1.hist(QCD_PTSUMCONE040, bins = 200, range = [start, start + 5], histtype = 'step', density = True, label = "Simulated QCD pT")
+title = str(start) + " < pT < " + str(start + 5)
+ax1.set_title(title, fontsize = "small")
+ax1.set(ylabel='Normalised Counts')
+
+start += 5
+ax2.hist(real_PTSUMCONE040, bins = 200, range = [start, start + 5], histtype = 'step', density = True, label = "Real pT")
+ax2.hist(QCD_PTSUMCONE040, bins = 200, range = [start, start + 5], histtype = 'step', density = True, label = "Simulated QCD pT")
+title = str(start) + " < pT < " + str(start + 5)
+ax2.set_title(title, fontsize = "small")
+
+start += 5
+ax3.hist(real_PTSUMCONE040, bins = 200, range = [start, start + 5], histtype = 'step', density = True, label = "Real pT")
+ax3.hist(QCD_PTSUMCONE040, bins = 200, range = [start, start + 5], histtype = 'step', density = True, label = "Simulated QCD pT")
+title = str(start) + " < pT < " + str(start + 5)
+ax3.set_title(title, fontsize = "small")
+ax3.set(xlabel='pT (GeV)', ylabel='Normalised Counts')
+
+start += 5
+ax4.hist(real_PTSUMCONE040, bins = 200, range = [start, start + 5], histtype = 'step', density = True, label = "Real pT")
+ax4.hist(QCD_PTSUMCONE040, bins = 200, range = [start, start + 5], histtype = 'step', density = True, label = "Simulated QCD pT")
+title = str(start) + " < pT < " + str(start + 5)
+ax4.set_title(title, fontsize = "small")
+ax4.set(xlabel='pT (GeV)')
+
+plt.legend(loc = "lower center", fontsize = "small")
+plt.savefig("img/pTvalues")

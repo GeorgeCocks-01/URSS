@@ -14,7 +14,7 @@ with uproot.open("/tmp/13TeV__2018__magnet_down_data__Z_candidates.root") as fil
   mum_PHI = file["DecayTree"]["mum_PHI"].array(library="np")
 
 
-fig, (ax1, ax2, ax3) = plt.subplots(1,3, figsize=(10,4))
+fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(10,4))
 fig.suptitle('$\mu^+$')
 
 ax1.hist(mup_PT, bins = 200, range = [0, 200], histtype='step')
