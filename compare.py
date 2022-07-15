@@ -15,7 +15,7 @@ with uproot.open("/tmp/13TeV_2017_29r2_Up_QcdBgdPt18GeV_Sim09k.root") as file:
 plt.hist(real_PT, bins = 200, range = [20, 60], histtype = 'step', density = True, label = "Real pT")
 plt.hist(QCD_PT, bins = 200, range = [20, 60], histtype = 'step', density = True, label = "Simulated QCD pT")
 plt.legend()
-plt.title("pT of background rich data vs. simulated QCD data")
+plt.title("muon pT of background rich data vs. simulated QCD data")
 plt.ylabel("Normalised Counts")
 plt.xlabel("pT (GeV)")
 plt.savefig("img/compare_PT")
@@ -24,8 +24,8 @@ plt.figure()
 
 
 #plots the transverse momentum of all particles in a cone around muons
-plt.hist(real_PTSUMCONE040, bins = 200, range = [20, 140], histtype = 'step', density = True, label = "Real pT")
-plt.hist(QCD_PTSUMCONE040, bins = 200, range = [20, 140], histtype = 'step', density = True, label = "Simulated QCD pT")
+plt.hist(real_PTSUMCONE040, bins = 200, range = [-2, 140], histtype = 'step', density = True, label = "Real pT")
+plt.hist(QCD_PTSUMCONE040, bins = 200, range = [-2, 140], histtype = 'step', density = True, label = "Simulated QCD pT")
 plt.legend()
 plt.title("isolation of background rich data vs. simulated QCD data")
 plt.ylabel("Normalised Counts")
