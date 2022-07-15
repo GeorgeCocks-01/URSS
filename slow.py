@@ -39,9 +39,8 @@ for entry in tree:
   invMassArray = np.append(invMassArray, np.sqrt((mup_E + mum_E)**2 - (mup_x + mum_x)**2 - (mup_y + mum_y)**2 - (mup_z + mum_z)**2))
 
 
-
 plt.hist(invMassArray, bins = 200, range = [0, 200], histtype='step')
 plt.title("Invariant mass distribution from $\mu^+ \mu^-$")
 plt.ylabel("Counts")
 plt.xlabel("Invariant mass (GeV)")
-plt.savefig("zpeak_s.png")
+plt.savefig("img/zpeak_s.png")
