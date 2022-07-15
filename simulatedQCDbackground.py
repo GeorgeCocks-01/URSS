@@ -22,4 +22,3 @@ plt.title("pT distribution of particles in a cone around $\mu$ for simulated eve
 plt.ylabel("Counts")
 plt.xlabel("pT (GeV)")
 plt.savefig("img/simQCDmu_PTSUMCONE040")
-
