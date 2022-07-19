@@ -44,15 +44,11 @@ fig.suptitle("Isolation comparison at different values of muon pT")
 
 for i in range(0,2):
   for j in range(0,2):
-    realRange = real_PTSUMCONE040[start < real_PT]
-    adaptedreal_PT = real_PT[start < real_PT]
-    realRange = realRange[adaptedreal_PT < (start + 5)]
-    QCDRange = QCD_PTSUMCONE040[start < QCD_PT]
-    adaptedQCD_PT = QCD_PT[start < QCD_PT]
-    QCDRange = QCDRange[adaptedQCD_PT < (start + 5)]
+    cropped_real_PTSUMCONE040 = real_PTSUMCONE040[(real_PT > start) & (real_PT < start + 5)]
+    cropped_QCD_PTSUMCONE040 = QCD_PTSUMCONE040[(QCD_PT > start) & (QCD_PT < start + 5)]
 
-    ax[i, j].hist(realRange, bins = 200, range = [-2, 140], histtype = 'step', density = True, label = "Real pT")
-    ax[i, j].hist(QCDRange, bins = 200, range = [-2, 140], histtype = 'step', density = True, label = "Simulated QCD pT")
+    ax[i, j].hist(cropped_real_PTSUMCONE040, bins = 100, range = [-2, 140], histtype = 'step', density = True, label = "Real pT")
+    ax[i, j].hist(cropped_QCD_PTSUMCONE040, bins = 100, range = [-2, 140], histtype = 'step', density = True, label = "Simulated QCD pT")
     title = str(start) + " < pT < " + str(start + 5)
     ax[i, j].set_title(title, fontsize = "small")
     plt.setp(ax[-1, :], xlabel='isolation')
@@ -62,7 +58,7 @@ for i in range(0,2):
 
 plt.subplots_adjust(hspace = 0.3, wspace = 0.3)
 plt.legend(fontsize = "x-small")
-plt.savefig("img/pTvalues")
+plt.savefig("img/compare")
 
 start -= 20
 
@@ -77,4 +73,4 @@ realRange = realRange[adaptedreal_PT < (start + 5)]
 
 cropped_isMuon = cropped_isMuon[realRange < 40]
 
-print(sum(cropped_isMuon)*100/len(cropped_isMuon), "% of interactions", start, "-", start+5,"are muons")
+print(sum(cropped_isMuon)*100/len(cropped_isMuon), "% of interactions", start, "-", start+5,"pT are muons")
