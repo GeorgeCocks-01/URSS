@@ -25,7 +25,7 @@ ax3.hist(mup_PHI, bins = 200, range = [0, 4], histtype='step')
 ax3.set(xlabel='$\phi$')
 
 plt.subplots_adjust(wspace = 0.4)
-plt.savefig("img/mup.png")
+plt.savefig("img/kinematic_mup.png")
 
 
 
@@ -40,7 +40,7 @@ ax6.hist(mum_PHI, bins = 200, range = [0, 4], histtype='step')
 ax6.set(xlabel='$\phi$')
 
 plt.subplots_adjust(wspace = 0.4)
-plt.savefig("img/mum.png")
+plt.savefig("img/kinematic_mum.png")
 
 # Plots for the mass, pT and rapidity for the {mu+ mu-} system
 
@@ -79,4 +79,4 @@ ax9.hist(y, bins = 200, range = [1, 5], histtype='step')
 ax9.set(xlabel="Rapidity")
 
 plt.subplots_adjust(wspace = 0.4)
-plt.savefig("img/dimuon.png")
+plt.savefig("img/kinematic_dimuon.png")

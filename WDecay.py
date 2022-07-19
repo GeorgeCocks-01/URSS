@@ -33,7 +33,7 @@ plt.hist2d(mu_PT, log_cone, bins=200, norm=LogNorm(), range = [[20,120], [-1.3, 
 plt.colorbar()
 plt.ylabel("Log10(pT particles in cone (GeV))")
 plt.xlabel("muon pT (GeV)")
-plt.savefig("img/muonVScone")
+plt.savefig("img/WmuonVScone")
 
 plt.figure()
 
@@ -44,4 +44,4 @@ plt.hist(sub5mu_PT, bins = 200, range = [20, 140], histtype = 'step')
 plt.title("pT distribution of $\mu$ for isolation < 5GeV")
 plt.ylabel("Counts")
 plt.xlabel("pT (GeV)")
-plt.savefig("img/1D")
+plt.savefig("img/W1D")
