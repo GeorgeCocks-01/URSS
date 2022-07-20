@@ -3,36 +3,43 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.colors import LogNorm
 
-
 with uproot.open("/tmp/13TeV_2018_34_Up_EW.root") as file:
-  realIPCHI2 = file["WpNoMuID/DecayTree/mu_MIPCHI2DV"].array(library = "np")
-  realTRCHI2 = file["WpNoMuID/DecayTree/mu_TRCHI2DOF"].array(library = "np")
-  isRealMuon = file["WpNoMuID/DecayTree/mu_ISMUON"].array(library = "np")
+  realQCDIPCHI2 = file["WpNoMuID/DecayTree/mu_MIPCHI2DV"].array(library = "np")
+  realQCDTRCHI2 = file["WpNoMuID/DecayTree/mu_TRCHI2DOF"].array(library = "np")
+  isRealQCDMuon = file["WpNoMuID/DecayTree/mu_ISMUON"].array(library = "np")
+
+  realWIPCHI2 = file["WpIso/DecayTree/mu_MIPCHI2DV"].array(library = "np")
+  realWTRCHI2 = file["WpIso/DecayTree/mu_TRCHI2DOF"].array(library = "np")
+  isRealWMuon = file["WpIso/DecayTree/mu_ISMUON"].array(library = "np")
 with uproot.open("/tmp/13TeV_2017_29r2_Up_QcdBgdPt18GeV_Sim09k.root") as file:
   QCDsimIPCHI2 = file["WpNoMuID/DecayTree/mu_MIPCHI2DV"].array(library = "np")
   QCDsimTRCHI2 = file["WpNoMuID/DecayTree/mu_TRCHI2DOF"].array(library = "np")
   isQCDMuon = file["WpNoMuID/DecayTree/mu_ISMUON"].array(library = "np")
+  QCDtrueID = file["WpNoMuID/DecayTree/mu_TRUEID"].array(library = "np")
 with uproot.open("/tmp/13TeV_2018_34_Up_W_Sim09k.root") as file:
   WsimIPCHI2 = file["WpIso/DecayTree/mu_MIPCHI2DV"].array(library = "np")
   WsimTRCHI2 = file["WpIso/DecayTree/mu_TRCHI2DOF"].array(library = "np")
   isWMuon = file["WpIso/DecayTree/mu_ISMUON"].array(library = "np")
 
-realIPCHI2 = realIPCHI2[isRealMuon == True]
-realTRCHI2 = realTRCHI2[isRealMuon == True]
-QCDsimIPCHI2 = QCDsimIPCHI2[isQCDMuon == True]
-QCDsimTRCHI2 = QCDsimTRCHI2[isQCDMuon == True]
+realQCDIPCHI2 = realQCDIPCHI2[isRealQCDMuon == False]
+realQCDTRCHI2 = realQCDTRCHI2[isRealQCDMuon == False]
+realWIPCHI2 = realWIPCHI2[isRealWMuon == True]
+realWTRCHI2 = realWTRCHI2[isRealWMuon == True]
+QCDsimIPCHI2 = QCDsimIPCHI2[isQCDMuon == False]
+QCDsimTRCHI2 = QCDsimTRCHI2[isQCDMuon == False]
+QCDtrueID = QCDtrueID[isQCDMuon == False]
 WsimIPCHI2 = WsimIPCHI2[isWMuon == True]
 WsimTRCHI2 = WsimTRCHI2[isWMuon == True]
 
 #2D plot the real IPCHI2 and TRCHI2 data
-plt.hist2d(realIPCHI2, realTRCHI2, bins=200, norm=LogNorm(), range = [[0, 17], [0, 2.5]])
+plt.hist2d(realQCDIPCHI2, realQCDTRCHI2, bins=200, norm=LogNorm(), range = [[0, 17], [0, 2.5]])
 plt.colorbar()
 plt.ylabel("TRCHI2")
 plt.xlabel("IPCHI2")
 plt.title("Real W data")
 plt.savefig("img/real_trVSipCHI")
 
-plt.figure()
+plt.close()
 
 #2D plot the IPCHI2 and TRCHI2 data from the QCD background simulations
 plt.hist2d(QCDsimIPCHI2, QCDsimTRCHI2, bins=200, norm=LogNorm(), range = [[0, 17], [0, 2.5]])
@@ -42,7 +49,7 @@ plt.xlabel("IPCHI2")
 plt.title("Simulation QCD data")
 plt.savefig("img/simQCD_trVSipCHI")
 
-plt.figure()
+plt.close()
 
 #2D plot the IPCHI2 and TRCHI2 data from the W -> mu nu simulation
 plt.hist2d(WsimIPCHI2, WsimTRCHI2, bins=200, norm=LogNorm(), range = [[0, 14], [0, 2]])
@@ -52,13 +59,14 @@ plt.xlabel("IPCHI2")
 plt.title("Simulation W data")
 plt.savefig("img/simW_trVSipCHI")
 
-plt.figure()
+plt.close()
 
 
 
 
 #Plot of real, QCD sim and W sim IPCHI2
-plt.hist(realIPCHI2, bins = 200, range = [0, 15], histtype = "step", label = "Real", density = True)
+plt.hist(realQCDIPCHI2, bins = 200, range = [0, 15], histtype = "step", label = "Real QCD", density = True)
+plt.hist(realWIPCHI2, bins = 200, range = [0, 15], histtype = "step", label = "Real W", density = True)
 plt.hist(QCDsimIPCHI2, bins = 200, range = [0, 15], histtype = "step", label = "QCD sim", density = True)
 plt.hist(WsimIPCHI2, bins = 200, range = [0, 15], histtype = "step", label = "W sim", density = True)
 plt.legend()
@@ -67,22 +75,28 @@ plt.ylabel("Normalised Counts")
 plt.title("IPCHI2 comparison")
 plt.savefig("img/ipchi2")
 
-plt.figure()
+plt.close()
 
 #Plot of real, QCD sim and W sim TRCHI2
-plt.hist(realTRCHI2, bins = 200, range = [0, 3.5], histtype = "step", label = "Real", density = True)
+
+QCDsimTRCHI2 = QCDsimTRCHI2[QCDtrueID != 0] #removes "unknown" (type = 0) particles from qcd sim data
+
+plt.hist(realQCDTRCHI2, bins = 200, range = [0, 3.5], histtype = "step", label = "Real QCD", density = True)
+plt.hist(realWTRCHI2, bins = 200, range = [0, 3.5], histtype = "step", label = "Real W", density = True)
 plt.hist(QCDsimTRCHI2, bins = 200, range = [0, 3.5], histtype = "step", label = "QCD sim", density = True)
 plt.hist(WsimTRCHI2, bins = 200, range = [0, 3.5], histtype = "step", label = "W sim", density = True)
 plt.legend()
+plt.vlines(1, 0, 2)
 plt.xlabel("TRCHI2")
 plt.ylabel("Normalised Counts")
 plt.title("TRCHI2 comparison")
-plt.savefig("img/trchi2")
+plt.savefig("img/trchi2_new")
 
-plt.figure()
+plt.close()
 
 #Log plots of the real, QCD sim and W sim IPCHI2 data
-plt.hist(realIPCHI2, bins = 200, range = [0, 40000], histtype = "step", label = "Real", log = True, density = True)
+plt.hist(realQCDIPCHI2, bins = 200, range = [0, 40000], histtype = "step", label = "Real QCD", log = True, density = True)
+plt.hist(realWIPCHI2, bins = 200, range = [0, 40000], histtype = "step", label = "Real W", log = True, density = True)
 plt.hist(QCDsimIPCHI2, bins = 200, range = [0, 40000], histtype = "step", label = "QCD sim", log = True, density = True)
 plt.hist(WsimIPCHI2, bins = 200, range = [0, 40000], histtype = "step", label = "W sim", log = True, density = True)
 plt.legend()
