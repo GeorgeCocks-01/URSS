@@ -31,7 +31,7 @@ plt.hist(QCD_PTSUMCONE040, bins = 200, range = [-2, 140], histtype = 'step', den
 plt.legend()
 plt.title("isolation of background rich data vs. simulated QCD data")
 plt.ylabel("Normalised Counts")
-plt.xlabel("pT (GeV)")
+plt.xlabel("isolation (GeV)")
 plt.savefig("img/compare_PTSUMCONE040")
 
 plt.figure()

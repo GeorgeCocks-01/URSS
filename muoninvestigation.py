@@ -29,8 +29,8 @@ fig.suptitle("Isolation comparison at different values of muon pT for ")
 
 for i in range(0,2):
   for j in range(0,2):
-    cropped_real_PTSUMCONE040 = real_PTSUMCONE040[(real_PT > start) & (real_PT < start + 5) & (realIPCHI2 < ipLim) & (realTRCHI2 < trLim)]
-    cropped_QCD_PTSUMCONE040 = QCD_PTSUMCONE040[(QCD_PT > start) & (QCD_PT < start + 5) & (simIPCHI2 < ipLim) & (simTRCHI2 < trLim)]
+    cropped_real_PTSUMCONE040 = real_PTSUMCONE040[(real_PT > start) & (real_PT < start + 5) & (realIPCHI2 < ipLim) & (realTRCHI2 < trLim) & (realETA < 4.5) & (realETA > 2)]
+    cropped_QCD_PTSUMCONE040 = QCD_PTSUMCONE040[(QCD_PT > start) & (QCD_PT < start + 5) & (simIPCHI2 < ipLim) & (simTRCHI2 < trLim) & (QCDETA < 4.5) & (QCDETA > 2)]
 
 
     ax[i, j].hist(cropped_real_PTSUMCONE040, bins = 100, range = [-2, 140], histtype = 'step', density = True, label = "Real pT")
