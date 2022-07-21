@@ -77,19 +77,30 @@ plt.savefig("img/ipchi2")
 
 plt.close()
 
-#Plot of real, QCD sim and W sim TRCHI2
-
-QCDsimTRCHI2 = QCDsimTRCHI2[QCDtrueID != 0] #removes "unknown" (type = 0) particles from qcd sim data
-
+#Plot of real, QCD sim and W sim TRCHI2, first with and then without type 0 particles
 plt.hist(realQCDTRCHI2, bins = 200, range = [0, 3.5], histtype = "step", label = "Real QCD", density = True)
 plt.hist(realWTRCHI2, bins = 200, range = [0, 3.5], histtype = "step", label = "Real W", density = True)
 plt.hist(QCDsimTRCHI2, bins = 200, range = [0, 3.5], histtype = "step", label = "QCD sim", density = True)
 plt.hist(WsimTRCHI2, bins = 200, range = [0, 3.5], histtype = "step", label = "W sim", density = True)
 plt.legend()
-plt.vlines(1, 0, 2)
+plt.vlines(1, 0, 1.75)
 plt.xlabel("TRCHI2")
 plt.ylabel("Normalised Counts")
 plt.title("TRCHI2 comparison")
+plt.savefig("img/trchi2")
+
+plt.close()
+
+QCDsimTRCHI2 = QCDsimTRCHI2[QCDtrueID != 0] #removes "unknown" (type = 0) particles from qcd sim TRCHI2 data
+plt.hist(realQCDTRCHI2, bins = 200, range = [0, 3.5], histtype = "step", label = "Real QCD", density = True)
+plt.hist(realWTRCHI2, bins = 200, range = [0, 3.5], histtype = "step", label = "Real W", density = True)
+plt.hist(QCDsimTRCHI2, bins = 200, range = [0, 3.5], histtype = "step", label = "QCD sim", density = True)
+plt.hist(WsimTRCHI2, bins = 200, range = [0, 3.5], histtype = "step", label = "W sim", density = True)
+plt.legend()
+plt.vlines(1, 0, 1.75)
+plt.xlabel("TRCHI2")
+plt.ylabel("Normalised Counts")
+plt.title("TRCHI2 comparison without type 0 particles")
 plt.savefig("img/trchi2_new")
 
 plt.close()

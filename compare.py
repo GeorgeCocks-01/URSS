@@ -47,8 +47,8 @@ for i in range(0,2):
     cropped_real_PTSUMCONE040 = real_PTSUMCONE040[(real_PT > start) & (real_PT < start + 5)]
     cropped_QCD_PTSUMCONE040 = QCD_PTSUMCONE040[(QCD_PT > start) & (QCD_PT < start + 5)]
 
-    ax[i, j].hist(cropped_real_PTSUMCONE040, bins = 100, range = [-2, 140], histtype = 'step', density = True, label = "Real pT")
-    ax[i, j].hist(cropped_QCD_PTSUMCONE040, bins = 100, range = [-2, 140], histtype = 'step', density = True, label = "Simulated QCD pT")
+    ax[i, j].hist(cropped_real_PTSUMCONE040, bins = 100, range = [-2, 140], histtype = 'step', density = True, label = "Real")
+    ax[i, j].hist(cropped_QCD_PTSUMCONE040, bins = 100, range = [-2, 140], histtype = 'step', density = True, label = "Simulated QCD")
     title = str(start) + " < pT < " + str(start + 5)
     ax[i, j].set_title(title, fontsize = "small")
     plt.setp(ax[-1, :], xlabel='isolation')

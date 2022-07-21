@@ -26,7 +26,7 @@ ipLim = 4
 trLim = 2
 
 fig, ax = plt.subplots(2, 2)
-fig.suptitle("Isolation comparison at different values of muon pT for ")
+fig.suptitle("Isolation comparison at for IPCHI2 < 4 and TRCHI2 < 2")
 
 for i in range(0,2):
   for j in range(0,2):
@@ -34,8 +34,8 @@ for i in range(0,2):
     cropped_QCD_PTSUMCONE040 = QCD_PTSUMCONE040[(QCD_PT > start) & (QCD_PT < start + 5) & (simIPCHI2 < ipLim) & (simTRCHI2 < trLim) & (QCDETA < 4.5) & (QCDETA > 2) & (QCDtrueID != 0 )]
 
 
-    ax[i, j].hist(cropped_real_PTSUMCONE040, bins = 50, range = [-2, 140], histtype = 'step', density = True, label = "Real pT")
-    ax[i, j].hist(cropped_QCD_PTSUMCONE040, bins = 50, range = [-2, 140], histtype = 'step', density = True, label = "Simulated QCD pT")
+    ax[i, j].hist(cropped_real_PTSUMCONE040, bins = 50, range = [-2, 140], histtype = 'step', density = True, label = "Real")
+    ax[i, j].hist(cropped_QCD_PTSUMCONE040, bins = 50, range = [-2, 140], histtype = 'step', density = True, label = "Simulated QCD")
     title = str(start) + " < pT < " + str(start + 5)
     ax[i, j].set_title(title, fontsize = "small")
     plt.setp(ax[-1, :], xlabel='isolation (GeV)')
