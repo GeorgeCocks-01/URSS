@@ -44,9 +44,6 @@ for i, j in particleDict.items():
 ax1.set(xlabel = "Isolation (GeV)", ylabel = "Counts")
 ax2.set(xlabel = "Isolation (GeV)", ylabel = "Normalised Counts")
 ax1.legend(loc = "upper right", fontsize = "x-small")
-# plt.title("Isolation for different particles")
-# plt.ylabel("Counts")
-# plt.xlabel("Isolation (GeV)")
 plt.savefig("img/particlesISO")
 
 plt.close()
@@ -64,9 +61,6 @@ for i, j in particleDict.items():
 ax1.set(xlabel = "IPCHI2", ylabel = "Counts")
 ax2.set(xlabel = "IPCHI2", ylabel = "Normalised Counts")
 ax1.legend(loc = "upper right", fontsize = "x-small")
-# plt.title("IPCHI2 for different particles")
-# plt.ylabel("Counts")
-# plt.xlabel("IPCHI2")
 plt.savefig("img/particlesIPCHI2")
 
 plt.close()
@@ -84,7 +78,4 @@ for i, j in particleDict.items():
 ax1.set(xlabel = "TRCHI2", ylabel = "Counts")
 ax2.set(xlabel = "TRCHI2", ylabel = "Normalised Counts")
 ax1.legend(loc = "upper right", fontsize = "x-small")
-# plt.title("TRCHI2 for different particles")
-# plt.ylabel("Counts")
-# plt.xlabel("TRCHI2")
 plt.savefig("img/particlesTRCHI2")
