@@ -2,6 +2,7 @@ import uproot
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+from scipy import stats
 
 c = 3*10**8
 pionMass = 0.13957
@@ -19,34 +20,37 @@ with uproot.open("/tmp/13TeV_2018_34_Up_EW.root:WpNoMuID/DecayTree") as file:
 with uproot.open("/tmp/13TeV_2018_34_Up_EW.root:WpIso/DecayTree") as file:
   realW = file.arrays(["mu_PT", "mu_ISMUON"], library = "pd")
 
-
 qcd.loc[:, "mu_PT"] = qcd["mu_PT"]/1000
 qcd.loc[:, "Pweight"] = np.zeros(len(qcd))
 qcd.loc[:, "weight"] = np.zeros(len(qcd))
 qcd.loc[:, "P"] = qcd["mu_PT"]*np.cosh(qcd["mu_ETA"])
 
+pions = qcd["mu_TRUEID"] == 211
+kaons = qcd["mu_TRUEID"] == 321
+protons = qcd["mu_TRUEID"] == 2212
+
 #1/P weights for pions and kaons
-qcd.loc[qcd["mu_TRUEID"] == 211, "Pweight"] = 1/qcd.loc[qcd["mu_TRUEID"] == 211, "P"]
-qcd.loc[qcd["mu_TRUEID"] == 321, "Pweight"] = 1/qcd.loc[qcd["mu_TRUEID"] == 321, "P"]
+qcd.loc[pions, "Pweight"] = 1/qcd.loc[pions, "P"]
+qcd.loc[kaons, "Pweight"] = 1/qcd.loc[kaons, "P"]
 
 #Equation weights for pions and kaons
-qcd.loc[qcd["mu_TRUEID"] == 211, "weight"] = pionbfrac*pionMass/(qcd.loc[qcd["mu_TRUEID"] == 211, "P"]*pionTau)
-qcd.loc[qcd["mu_TRUEID"] == 321, "weight"] = (kaonbfrac + kaonpibfrac)*kaonMass/(qcd.loc[qcd["mu_TRUEID"] == 321, "P"]*kaonTau)
+qcd.loc[pions, "weight"] = pionbfrac*pionMass/(qcd.loc[pions, "P"]*pionTau)
+qcd.loc[kaons, "weight"] = (kaonbfrac + kaonpibfrac)*kaonMass/(qcd.loc[kaons, "P"]*kaonTau)
 
 
 
 #No weight plots
-plt.hist(qcd.loc[qcd["mu_TRUEID"] == 211, "mu_PT"], bins = 50, histtype = "step", label = "Pions no weight", density = True, color = "r", range = [20, 60])
-plt.hist(qcd.loc[qcd["mu_TRUEID"] == 321, "mu_PT"], bins = 50, histtype = "step", label = "Kaons no weight", density = True, color = "b", range = [20, 60])
-plt.hist(qcd.loc[qcd["mu_TRUEID"] == 2212, "mu_PT"], bins = 50, histtype = "step", label = "Protons no weight", density = True, color = "g", range = [20, 60])
+plt.hist(qcd.loc[pions, "mu_PT"], bins = 50, histtype = "step", label = "Pions no weight", density = True, color = "r", range = [20, 60])
+plt.hist(qcd.loc[kaons, "mu_PT"], bins = 50, histtype = "step", label = "Kaons no weight", density = True, color = "b", range = [20, 60])
+plt.hist(qcd.loc[protons, "mu_PT"], bins = 50, histtype = "step", label = "Protons no weight", density = True, color = "g", range = [20, 60])
 #1/P weight plots
-plt.hist(qcd.loc[qcd["mu_TRUEID"] == 211, "mu_PT"], bins = 50, histtype = "step", label = "Pions 1/P weights", weights = qcd.loc[qcd["mu_TRUEID"] == 211, "Pweight"], density = True, color = "r", linestyle = "dashed", range = [20, 60])
-plt.hist(qcd.loc[qcd["mu_TRUEID"] == 321, "mu_PT"], bins = 50, histtype = "step", label = "Kaons 1/P weights", weights = qcd.loc[qcd["mu_TRUEID"] == 321, "Pweight"], density = True, color = "b", linestyle = "dashed", range = [20, 60])
+plt.hist(qcd.loc[pions, "mu_PT"], bins = 50, histtype = "step", label = "Pions 1/P weights", weights = qcd.loc[pions, "Pweight"], density = True, color = "r", linestyle = "dashed", range = [20, 60])
+plt.hist(qcd.loc[kaons, "mu_PT"], bins = 50, histtype = "step", label = "Kaons 1/P weights", weights = qcd.loc[kaons, "Pweight"], density = True, color = "b", linestyle = "dashed", range = [20, 60])
 #Equation plots
-plt.hist(qcd.loc[qcd["mu_TRUEID"] == 211, "mu_PT"], bins = 50, histtype = "step", label = "Pions m/(tau*p) weights", weights = qcd.loc[qcd["mu_TRUEID"] == 211, "weight"], density = True, color = "r", linestyle = ":", range = [20, 60])
-plt.hist(qcd.loc[qcd["mu_TRUEID"] == 321, "mu_PT"], bins = 50, histtype = "step", label = "Kaons m/(tau*p) weights", weights = qcd.loc[qcd["mu_TRUEID"] == 321, "weight"], density = True, color = "b", linestyle = ":", range = [20, 60])
+plt.hist(qcd.loc[pions, "mu_PT"], bins = 50, histtype = "step", label = "Pions m/(tau*p) weights", weights = qcd.loc[pions, "weight"], density = True, color = "r", linestyle = ":", range = [20, 60])
+plt.hist(qcd.loc[kaons, "mu_PT"], bins = 50, histtype = "step", label = "Kaons m/(tau*p) weights", weights = qcd.loc[kaons, "weight"], density = True, color = "b", linestyle = ":", range = [20, 60])
 #ISMUON = True plot
-plt.hist(qcd.loc[(qcd["mu_TRUEID"] == 2212) & (qcd["mu_ISMUON"] == True), "mu_PT"], bins = 50, histtype = "step", label = "Protons with ISMUON True", density = True, color = "g", linestyle = ":", range = [20, 60])
+plt.hist(qcd.loc[(protons) & (qcd["mu_ISMUON"] == True), "mu_PT"], bins = 50, histtype = "step", label = "Protons with ISMUON True", density = True, color = "g", linestyle = ":", range = [20, 60])
 
 plt.legend()
 plt.xlabel("PT (GeV)")
@@ -59,17 +63,17 @@ plt.close()
 #Plotting with log scale
 
 #No weight log plots
-plt.hist(qcd.loc[qcd["mu_TRUEID"] == 211, "mu_PT"], bins = 50, histtype = "step", label = "Pions no weight", density = True, color = "r", range = [20, 200], log = True)
-plt.hist(qcd.loc[qcd["mu_TRUEID"] == 321, "mu_PT"], bins = 50, histtype = "step", label = "Kaons no weight", density = True, color = "b", range = [20, 200], log = True)
-plt.hist(qcd.loc[qcd["mu_TRUEID"] == 2212, "mu_PT"], bins = 50, histtype = "step", label = "Protons no weight", density = True, color = "g", range = [20, 200], log = True)
+plt.hist(qcd.loc[pions, "mu_PT"], bins = 50, histtype = "step", label = "Pions no weight", density = True, color = "r", range = [20, 200], log = True)
+plt.hist(qcd.loc[kaons, "mu_PT"], bins = 50, histtype = "step", label = "Kaons no weight", density = True, color = "b", range = [20, 200], log = True)
+plt.hist(qcd.loc[protons, "mu_PT"], bins = 50, histtype = "step", label = "Protons no weight", density = True, color = "g", range = [20, 200], log = True)
 #1/P weight log plots
-plt.hist(qcd.loc[qcd["mu_TRUEID"] == 211, "mu_PT"], bins = 50, histtype = "step", label = "Pions 1/P weights", weights = qcd.loc[qcd["mu_TRUEID"] == 211, "Pweight"], density = True, color = "r", linestyle = "dashed", range = [20, 200], log = True)
-plt.hist(qcd.loc[qcd["mu_TRUEID"] == 321, "mu_PT"], bins = 50, histtype = "step", label = "Kaons 1/P weights", weights = qcd.loc[qcd["mu_TRUEID"] == 321, "Pweight"], density = True, color = "b", linestyle = "dashed", range = [20, 200], log = True)
+plt.hist(qcd.loc[pions, "mu_PT"], bins = 50, histtype = "step", label = "Pions 1/P weights", weights = qcd.loc[pions, "Pweight"], density = True, color = "r", linestyle = "dashed", range = [20, 200], log = True)
+plt.hist(qcd.loc[kaons, "mu_PT"], bins = 50, histtype = "step", label = "Kaons 1/P weights", weights = qcd.loc[kaons, "Pweight"], density = True, color = "b", linestyle = "dashed", range = [20, 200], log = True)
 #Equation log plots
-plt.hist(qcd.loc[qcd["mu_TRUEID"] == 211, "mu_PT"], bins = 50, histtype = "step", label = "Pions m/(tau*p) weights", weights = qcd.loc[qcd["mu_TRUEID"] == 211, "weight"], density = True, color = "r", linestyle = ":", range = [20, 200], log = True)
-plt.hist(qcd.loc[qcd["mu_TRUEID"] == 321, "mu_PT"], bins = 50, histtype = "step", label = "Kaons m/(tau*p) weights", weights = qcd.loc[qcd["mu_TRUEID"] == 321, "weight"], density = True, color = "b", linestyle = ":", range = [20, 200], log = True)
+plt.hist(qcd.loc[pions, "mu_PT"], bins = 50, histtype = "step", label = "Pions m/(tau*p) weights", weights = qcd.loc[pions, "weight"], density = True, color = "r", linestyle = ":", range = [20, 200], log = True)
+plt.hist(qcd.loc[kaons, "mu_PT"], bins = 50, histtype = "step", label = "Kaons m/(tau*p) weights", weights = qcd.loc[kaons, "weight"], density = True, color = "b", linestyle = ":", range = [20, 200], log = True)
 #ISMUON = True log plot
-plt.hist(qcd.loc[(qcd["mu_TRUEID"] == 2212) & (qcd["mu_ISMUON"] == True), "mu_PT"], bins = 50, histtype = "step", label = "Protons with ISMUON True", density = True, color = "g", linestyle = ":", range = [20, 200], log = True)
+plt.hist(qcd.loc[(protons) & (qcd["mu_ISMUON"] == True), "mu_PT"], bins = 50, histtype = "step", label = "Protons with ISMUON True", density = True, color = "g", linestyle = ":", range = [20, 200], log = True)
 
 plt.legend()
 plt.xlabel("PT (GeV)")
@@ -88,8 +92,8 @@ realQCD.loc[:, "P"] = realQCD["mu_PT"]*np.cosh(realQCD["mu_ETA"])
 realQCD["Pweight"] = 1/realQCD["P"]
 
 
-plt.hist(qcd.loc[qcd["mu_TRUEID"] == 2212, "mu_PT"], bins = 50, histtype = "step", label = "Protons no weight", range = [20, 65], density = True)
-plt.hist(qcd.loc[(qcd["mu_TRUEID"] == 2212) & (qcd["mu_ISMUON"] == True), "mu_PT"], bins = 50, histtype = "step", label = "Protons with ISMUON True", range = [20, 65], density = True)
+plt.hist(qcd.loc[protons, "mu_PT"], bins = 50, histtype = "step", label = "Protons no weight", range = [20, 65], density = True)
+plt.hist(qcd.loc[(protons) & (qcd["mu_ISMUON"] == True), "mu_PT"], bins = 50, histtype = "step", label = "Protons with ISMUON True", range = [20, 65], density = True)
 plt.hist(realQCD["mu_PT"], bins = 50, histtype = "step", label = "Real QCD with 1/P weights", weights = realQCD["Pweight"], range = [20, 65], density = True)
 plt.hist(realQCD.loc[realQCD["mu_ISMUON"] == True, "mu_PT"], bins = 50, histtype = "step", label = "Real QCD with ISMUON True", range = [20, 65], density = True)
 
@@ -109,9 +113,41 @@ realW["invPT"] = 1/realW["mu_PT"]
 
 qcd["invPT"] = 1/qcd["mu_PT"]
 
-plt.hist(realW["invPT"], bins = 50, histtype = "step", label = "Real W with ISMUON True", density = True, color = "b", range = [1/22, 1/20])
-plt.hist((qcd.loc[(qcd["mu_TRUEID"] == 321) | (qcd["mu_TRUEID"] == 211), "invPT"]), bins = 50, histtype = "step", label = "Kaons and Pions with 1/P weights", density = True, color = "g", range = [1/22, 1/20], weights = (qcd.loc[(qcd["mu_TRUEID"] == 321) | (qcd["mu_TRUEID"] == 211), "Pweight"]))
-plt.hist((qcd.loc[(qcd["mu_TRUEID"] == 321) | (qcd["mu_TRUEID"] == 211), "invPT"]), bins = 50, histtype = "step", label = "Kaons and Pions with m/(tau*p) weights", density = True, range = [1/22, 1/20], color = "r", weights = (qcd.loc[(qcd["mu_TRUEID"] == 321) | (qcd["mu_TRUEID"] == 211), "weight"]))
+
+qcd.loc[:, "weight2m"] = np.zeros(len(qcd))
+qcd.loc[:, "weight15m"] = np.zeros(len(qcd))
+#2m weights for pions and kaons
+qcd.loc[pions, "weight2m"] = pionbfrac*pionMass*2/(qcd.loc[pions, "P"]*pionTau*c)
+qcd.loc[kaons, "weight2m"] = (kaonbfrac + kaonpibfrac)*kaonMass*2/(qcd.loc[kaons, "P"]*kaonTau*c)
+
+#15m weights for pions and kaons
+qcd.loc[pions, "weight15m"] = pionbfrac*pionMass*15/(qcd.loc[pions, "P"]*pionTau*c)
+qcd.loc[kaons, "weight15m"] = (kaonbfrac + kaonpibfrac)*kaonMass*15/(qcd.loc[kaons, "P"]*kaonTau*c)
+
+#Weights of 1 for protons
+qcd.loc[protons, "weight"] = np.ones(len(qcd.loc[protons]))
+
+
+histData, bins, _ = plt.hist(
+  [(qcd.loc[(kaons) | (pions), "invPT"]),
+  qcd.loc[(protons) & (qcd["mu_ISMUON"] == True), "invPT"]],
+  bins = 50,
+  stacked = True,
+  label = ["Kaons and Pions d = 15m weights", "Protons with ISMUON True"],
+  weights = [qcd.loc[(kaons) | (pions), "weight15m"],
+    qcd.loc[(protons) & (qcd["mu_ISMUON"] == True), "weight"]],
+  density = True,
+  histtype = "step",
+  range = [1/22, 1/20],
+  color = ["r", "b"]
+)
+
+plt.hist(realW["invPT"], bins = 50, histtype = "step", label = "Real W with ISMUON True", density = True, color = "g", range = [1/22, 1/20])
+
+histData = histData[1, :]
+result = stats.linregress(bins[:-1], histData)
+
+plt.plot(bins[:-1], result.intercept + result.slope*bins[:-1], label = "Kaons, Pions and Protons fit", color = "k", linestyle = "--")
 
 plt.legend(loc = "lower center")
 plt.xlabel("1/pT (GeV^-1)")
@@ -124,48 +160,35 @@ plt.close()
 #################################
 #Kaon and Pion weights with length included to compare to protons with ISMUON = True
 
-qcd.loc[:, "weight2m"] = np.zeros(len(qcd))
-qcd.loc[:, "weight15m"] = np.zeros(len(qcd))
-
-
-#2m weights for pions and kaons
-qcd.loc[qcd["mu_TRUEID"] == 211, "weight2m"] = pionbfrac*pionMass*2/(qcd.loc[qcd["mu_TRUEID"] == 211, "P"]*pionTau*c)
-qcd.loc[qcd["mu_TRUEID"] == 321, "weight2m"] = (kaonbfrac + kaonpibfrac)*kaonMass*2/(qcd.loc[qcd["mu_TRUEID"] == 321, "P"]*kaonTau*c)
-
-#15m weights for pions and kaons
-qcd.loc[qcd["mu_TRUEID"] == 211, "weight15m"] = pionbfrac*pionMass*15/(qcd.loc[qcd["mu_TRUEID"] == 211, "P"]*pionTau*c)
-qcd.loc[qcd["mu_TRUEID"] == 321, "weight15m"] = (kaonbfrac + kaonpibfrac)*kaonMass*15/(qcd.loc[qcd["mu_TRUEID"] == 321, "P"]*kaonTau*c)
-
-qcd.loc[qcd["mu_TRUEID"] == 2212, "weight"] = np.ones(len(qcd.loc[qcd["mu_TRUEID"] == 2212]))
 
 #2m weight plots
 plt.hist(
-  [qcd.loc[qcd["mu_TRUEID"] == 211, "mu_PT"],
-  qcd.loc[qcd["mu_TRUEID"] == 321, "mu_PT"],
-  qcd.loc[(qcd["mu_TRUEID"] == 2212) & (qcd["mu_ISMUON"] == True), "mu_PT"]],
+  [qcd.loc[pions, "mu_PT"],
+  qcd.loc[kaons, "mu_PT"],
+  qcd.loc[(protons) & (qcd["mu_ISMUON"] == True), "mu_PT"]],
   bins = 50,
   stacked = True,
   label = ["Pions d = 2m weights", "Kaons d = 2m weights", "Protons with ISMUON True"],
   weights = [
-    qcd.loc[qcd["mu_TRUEID"] == 211, "weight2m"],
-    qcd.loc[qcd["mu_TRUEID"] == 321, "weight2m"],
-    qcd.loc[(qcd["mu_TRUEID"] == 2212) & (qcd["mu_ISMUON"] == True), "weight"]],
+    qcd.loc[pions, "weight2m"],
+    qcd.loc[kaons, "weight2m"],
+    qcd.loc[(protons) & (qcd["mu_ISMUON"] == True), "weight"]],
   density = True,
   range = [20, 55],
   histtype = "step",
   color = ["limegreen", "r", "b"]
 )
 plt.hist(
-  [qcd.loc[qcd["mu_TRUEID"] == 211, "mu_PT"],
-  qcd.loc[qcd["mu_TRUEID"] == 321, "mu_PT"],
-  qcd.loc[(qcd["mu_TRUEID"] == 2212) & (qcd["mu_ISMUON"] == True), "mu_PT"]],
+  [qcd.loc[pions, "mu_PT"],
+  qcd.loc[kaons, "mu_PT"],
+  qcd.loc[(protons) & (qcd["mu_ISMUON"] == True), "mu_PT"]],
   bins = 50,
   stacked = True,
   label = ["Pions d = 15m weights", "Kaons d = 15m weights", "Protons with ISMUON True"],
   weights = [
-    qcd.loc[qcd["mu_TRUEID"] == 211, "weight15m"],
-    qcd.loc[qcd["mu_TRUEID"] == 321, "weight15m"],
-    qcd.loc[(qcd["mu_TRUEID"] == 2212) & (qcd["mu_ISMUON"] == True), "weight"]],
+    qcd.loc[pions, "weight15m"],
+    qcd.loc[kaons, "weight15m"],
+    qcd.loc[(protons) & (qcd["mu_ISMUON"] == True), "weight"]],
   density = True,
   range = [20, 55],
   color = ["k", "c", "m"],
