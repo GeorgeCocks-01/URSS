@@ -4,6 +4,14 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy import stats
 
+def errors(data, weighting):
+  # v, bin_edges = np.histogram(data, bins = 50, range = [20, 60], weights = weighting)
+  s2w, bin_edges = np.histogram(data, bins = 50, range = [20, 60], weights = weighting**2)
+  yuncertainty = np.sqrt(s2w)
+  xuncertainty = (bin_edges[1:] - bin_edges[:-1])/2
+  c = (bin_edges[1:] + bin_edges[:-1])/2
+  return yuncertainty, xuncertainty, c
+
 c = 3*10**8
 pionMass = 0.13957
 pionTau = 2.6033*10**-8
@@ -209,12 +217,29 @@ plt.close()
 #################################
 #Comparing Pions+Kaons to Pions+Kaons+Protons
 
-plt.hist(qcd.loc[pions | kaons, "mu_PT"], bins = 50, histtype = "step", label = "Pions and Kaons", density = True, color = "r", range = [20, 60], weights = qcd.loc[pions | kaons, "weight15m"])
-plt.hist(qcd.loc[pions | kaons | (protons & qcd["mu_ISMUON"] == True), "mu_PT"], bins = 50, histtype = "step", label = "Pions and Kaons and Protons", density = True, color = "b", range = [20, 60], weights = qcd.loc[pions | kaons | (protons & qcd["mu_ISMUON"] == True), "weight15m"])
+pandk = qcd.loc[pions | kaons, "mu_PT"]
+pandkW = qcd.loc[pions | kaons, "weight15m"]
+pkandprotons = qcd.loc[pions | kaons | (protons & qcd["mu_ISMUON"] == True), "mu_PT"]
+pkandprotonsW = qcd.loc[pions | kaons | (protons & qcd["mu_ISMUON"] == True), "weight15m"]
+
+counts1, e, _ = plt.hist(pandk, bins = 50, histtype = "step", label = "Pions and Kaons", color = "r", range = [20, 60], weights = pandkW)
+counts2, e, _ = plt.hist(pkandprotons, bins = 50, histtype = "step", label = "Pions and Kaons and Protons", color = "b", range = [20, 60], weights = pkandprotonsW)
 
 plt.legend()
 plt.xlabel("PT (GeV)")
 plt.ylabel("Normalised Counts")
 plt.title("Investigating the difference protons make to the pT distribution")
 plt.savefig("img/weightscomparisonProtons.png")
+plt.close()
+
+yerror1, xerror1, c = errors(pandk, pandkW)
+yerror2, xerror2, c = errors(pkandprotons, pkandprotonsW)
+plt.errorbar(c, counts1, yerr = yerror1, xerr = xerror1, label = "Pions and Kaons")
+plt.errorbar(c, counts2, yerr = yerror2, xerr = xerror2, label = "Pions and Kaons and Protons")
+
+plt.legend()
+plt.xlabel("pT (GeV)")
+plt.ylabel("Normalised Counts")
+plt.title("Investigating the difference protons make to the pT distribution")
+plt.savefig("img/weightscomparisonProtonsEB.png")
 plt.close()
