@@ -227,7 +227,7 @@ counts2, e, _ = plt.hist(pkandprotons, bins = 50, histtype = "step", label = "Pi
 
 plt.legend()
 plt.xlabel("PT (GeV)")
-plt.ylabel("Normalised Counts")
+plt.ylabel("Counts")
 plt.title("Investigating the difference protons make to the pT distribution")
 plt.savefig("img/weightscomparisonProtons.png")
 plt.close()
@@ -239,7 +239,7 @@ plt.errorbar(c, counts2, yerr = yerror2, xerr = xerror2, label = "Pions and Kaon
 
 plt.legend()
 plt.xlabel("pT (GeV)")
-plt.ylabel("Normalised Counts")
+plt.ylabel("Counts")
 plt.title("Investigating the difference protons make to the pT distribution")
 plt.savefig("img/weightscomparisonProtonsEB.png")
 plt.close()
