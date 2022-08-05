@@ -85,7 +85,7 @@ plt.hist(qcd.loc[(protons) & (qcd["mu_ISMUON"] == True), "mu_PT"], bins = 50, hi
 
 plt.legend()
 plt.xlabel("PT (GeV)")
-plt.ylabel("Log(Normalised Counts)")
+plt.ylabel("Normalised Counts")
 plt.title("Comparing weights for particle types")
 plt.savefig("img/weightscomparisonLog.png")
 plt.close()
@@ -161,7 +161,7 @@ plt.plot(bins[:-1], withoutProtons.intercept + withoutProtons.slope*bins[:-1], l
 
 plt.legend(loc = "lower center")
 plt.xlabel("1/pT (GeV^-1)")
-plt.ylabel("Normalised Counts")
+plt.ylabel("Counts")
 plt.title("Comparing real W data to simulation")
 plt.savefig("img/weightscomparisonW.png")
 plt.close()
@@ -169,7 +169,6 @@ plt.close()
 
 #################################
 #Kaon and Pion weights with length included to compare to protons with ISMUON = True
-
 
 #2m weight plots
 plt.hist(

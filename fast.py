@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 
 restMass = 0.105658
 
-with uproot.open("/tmp/13TeV__2018__magnet_down_data__Z_candidates.root") as file:
+with uproot.open("../13TeV__2018__magnet_down_data__Z_candidates.root") as file:
   mup_PT = file["DecayTree"]["mup_PT"].array(library="np")/1000
   mup_ETA = file["DecayTree"]["mup_ETA"].array(library="np")
   mup_PHI = file["DecayTree"]["mup_PHI"].array(library="np")
@@ -30,7 +30,7 @@ mum_E = np.sqrt(restMass**2 + mum_x**2 + mum_y**2 + mum_z**2)
 
 invMass = np.sqrt((mup_E + mum_E)**2 - (mup_x + mum_x)**2 - (mup_y + mum_y)**2 - (mup_z + mum_z)**2)
 
-plt.hist(invMass, bins = 200, range = [0, 200], histtype='step')
+plt.hist(invMass, bins = 200, range = [40, 125], histtype='step')
 plt.title("Invariant mass distribution from $\mu^+ \mu^-$")
 plt.ylabel("Counts")
 plt.xlabel("Invariant mass (GeV)")

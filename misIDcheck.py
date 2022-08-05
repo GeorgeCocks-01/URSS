@@ -2,7 +2,6 @@ import uproot
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-import scipy.integrate as integrate
 from scipy.optimize import curve_fit
 
 c = 3*10**8
@@ -84,9 +83,9 @@ pionParams, pionCov = curve_fit(lambda p, pionPrefac1, pionPrefac2, pionLength: 
 
 protonParams, protonCov = curve_fit(lambda p, protonPrefac1, protonPrefac2: compositeIntegral(p, protonPrefac1, protonPrefac2), protons_bins[:-1], plottingData["protons_frac"]*100)
 
-# print("kaon parameters:", kaonParams)
-# print("pion parameters:", pionParams)
-# print("proton parameters:", protonParams)
+print("kaon parameters:", kaonParams)
+print("pion parameters:", pionParams)
+print("proton parameters:", protonParams)
 
 pRange = np.linspace(55, 1000, 10000)
 plt.errorbar(x = kaons_bins[:-1], y = plottingData["kaons_frac"]*100, label = "Kaon data", yerr = plottingData["kaons_err"]*100)
