@@ -15,7 +15,6 @@ def plotter(data, xMin, xMax, xVar, units = ""):
   ax2.set(xlabel = xVar + " " + units, ylabel = "Normalised Counts")
   ax1.legend(loc = "upper right", fontsize = "x-small")
   plt.savefig("img/particles" + xVar)
-
   plt.close()
 
 
