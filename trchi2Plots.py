@@ -23,9 +23,9 @@ def plotter(data, xType, yType, muonTF, yLim):
   return average.intercept, average.slope
 
 
-with uproot.open("/tmp/13TeV_2017_29r2_Up_QcdBgdPt18GeV_Sim09k.root:WpNoMuID/DecayTree") as file:
+with uproot.open("/storage/epp2/phshgg/Public/DVTuples__v24g/13TeV_2017_29r2_Up_QcdBgdPt18GeV_Sim09k.root:WpNoMuID/DecayTree") as file:
   simQCD = file.arrays(["mu_PT", "mu_PTSUMCONE040", "mu_TRCHI2DOF", "mu_ISMUON", "mu_ETA"], library = "pd")
-with uproot.open("/tmp/13TeV_2018_34_Up_EW.root:WpNoMuID/DecayTree") as file:
+with uproot.open("/storage/epp2/phshgg/Public/DVTuples__v24g/13TeV_2018_34_Up_EW.root:WpNoMuID/DecayTree") as file:
   realQCD = file.arrays(["mu_PT","mu_PTSUMCONE040", "mu_TRCHI2DOF", "mu_ISMUON", "mu_ETA"], library = "pd")
 
 simQCD["mu_PT"] = simQCD["mu_PT"]/1000
