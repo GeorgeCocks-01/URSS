@@ -5,11 +5,11 @@ import matplotlib.pyplot as plt
 
 def plotter(key, xMin, xMax, xVar, units = ""):
   withoutTrigger, bin_edges = np.histogram(simQCD.loc[:, key], range = [xMin, xMax], bins = 50)
-  withTrigger, bin_edges = np.histogram(simQCDtrigger.loc[:, key], bins = bin_edges)
+  efficiency = 100*np.histogram(simQCDtrigger.loc[:, key], bins = bin_edges)[0]/withoutTrigger
+  err = np.sqrt((efficiency*(100 - efficiency))/withoutTrigger)
 
-  efficiency = 100*withTrigger/withoutTrigger
-  w = abs(bin_edges[1:] - bin_edges[:-1])
-  plt.bar(bin_edges[:-1], efficiency, width = w, align = "edge")
+  c = (bin_edges[1:] + bin_edges[:-1])*0.5
+  plt.errorbar(x = c, y = efficiency, yerr = err)
   plt.title("Trigger efficiency of QCD simulation data")
   plt.xlabel(xVar + " " + units)
   plt.ylabel("Trigger Efficiency (%)")
@@ -23,14 +23,13 @@ simQCD[["mu_PTSUMCONE040", "mu_PT", "mu_HcalE", "mu_EcalE"]] = simQCD[["mu_PTSUM
 simQCD.loc[:, "HcalET"] = simQCD["mu_HcalE"]/np.cosh(simQCD["mu_ETA"])
 simQCD.loc[:, "EcalET"] = simQCD["mu_EcalE"]/np.cosh(simQCD["mu_ETA"])
 
-
 simQCDtrigger = simQCD[simQCD["mu_L0Global_TOS"] == True]
 
 #Plotting pT
 plotter("mu_PT", 20, 60, "pT", "(GeV)")
 
 #Plotting ETA
-plotter("mu_ETA", 1.5, 5, "ETA")
+plotter("mu_ETA", 1.7, 4.5, "ETA")
 
 #Plotting isolation graph
 plotter("mu_PTSUMCONE040", 0, 125, "Isolation", "(GeV)")
@@ -39,13 +38,13 @@ plotter("mu_PTSUMCONE040", 0, 125, "Isolation", "(GeV)")
 plotter("mu_MIPCHI2DV", 0, 15, "IPCHI2")
 
 #Plotting trchi2 graph
-plotter("mu_TRCHI2DOF", 0, 3, "TRCHI2")
+plotter("mu_TRCHI2DOF", 0.25, 3, "TRCHI2")
 
 #Plotting Hcal ET
 plotter("HcalET", 0, 60, "HcalET", "(GeV)")
 
 #Plotting Ecal ET
-plotter("EcalET", 0, 10, "EcalETasdfasdfadfa", "(GeV)")
+plotter("EcalET", 0, 10, "EcalET", "(GeV)")
 
 #Plotting PHI
-plotter("mu_PHI", -4, 4, "PHI")
+plotter("mu_PHI", -3, 3, "PHI")
