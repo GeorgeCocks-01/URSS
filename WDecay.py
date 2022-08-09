@@ -12,7 +12,7 @@ plt.hist(mu_PT, bins = 200, range = [15, 75], histtype = 'step')
 plt.title("pT distribution of $\mu$")
 plt.ylabel("Counts")
 plt.xlabel("pT (GeV)")
-plt.savefig("img/Wmu_PT")
+plt.savefig("img/WDecay/Wmu_PT")
 
 plt.close()
 
@@ -22,7 +22,7 @@ plt.hist(mu_PTSUMCONE040, bins = 200, range = [0, 125], histtype = 'step')
 plt.title("pT distribution of particles in a cone around $\mu$")
 plt.ylabel("Counts")
 plt.xlabel("isolation (GeV)")
-plt.savefig("img/Wmu_PTSUMCONE040")
+plt.savefig("img/WDecay/Wmu_PTSUMCONE040")
 
 plt.close()
 
@@ -33,7 +33,7 @@ plt.hist2d(mu_PT, log_cone, bins=200, norm=LogNorm(), range = [[20,120], [-1.3, 
 plt.colorbar()
 plt.ylabel("Log10(Isolation (GeV))")
 plt.xlabel("muon pT (GeV)")
-plt.savefig("img/WmuonVScone")
+plt.savefig("img/WDecay/WmuonVScone")
 
 plt.close()
 
@@ -44,4 +44,4 @@ plt.hist(sub5mu_PT, bins = 200, range = [20, 80], histtype = 'step')
 plt.title("pT distribution of $\mu$ for isolation < 5GeV")
 plt.ylabel("Counts")
 plt.xlabel("pT (GeV)")
-plt.savefig("img/W1D")
+plt.savefig("img/WDecay/W1D")

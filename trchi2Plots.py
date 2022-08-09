@@ -41,25 +41,25 @@ x = np.linspace(40, 1000, 10000)
 #ISMUON FALSE, PT
 falseInterceptPT, falseSlopePT = plotter(realQCD, "P", "mu_TRCHI2DOF", False, 4)
 plt.title("Real QCD background with ISMUON = False")
-plt.savefig("img/TRCHI2vPreal.png")
+plt.savefig("img/trchi2plots/TRCHI2vPreal.png")
 plt.close()
 
 #ISMUON TRUE, PT
 trueInterceptPT, trueSlopePT = plotter(realQCD, "P", "mu_TRCHI2DOF", True, 4)
 plt.title("Real QCD background with ISMUON = True")
-plt.savefig("img/TRCHI2vP_TRUEreal.png")
+plt.savefig("img/trchi2plots/TRCHI2vP_TRUEreal.png")
 plt.close()
 
 #ISMUON FALSE, ISO
 falseInterceptISO, falseSlopeISO = plotter(realQCD, "P", "mu_PTSUMCONE040", False, 200)
 plt.title("Real QCD background with ISMUON = False")
-plt.savefig("img/ISOvPreal.png")
+plt.savefig("img/trchi2plots/ISOvPreal.png")
 plt.close()
 
 #ISMUON TRUE, ISO
 trueInterceptISO, trueSlopeISO = plotter(realQCD, "P", "mu_PTSUMCONE040", True, 200)
 plt.title("Real QCD background with ISMUON = True")
-plt.savefig("img/ISOvP_TRUEreal.png")
+plt.savefig("img/trchi2plots/ISOvP_TRUEreal.png")
 plt.close()
 ############
 #Comparing the average TRCHI2 fit of ISMUON = True AND ISMUON = False, PT
@@ -67,7 +67,7 @@ ratio = (falseInterceptPT + falseSlopePT*x)/(trueInterceptPT + trueSlopePT*x)
 plt.plot(x, ratio)
 plt.xlabel("pT (GeV)")
 plt.title("Ratio of ISMUON False to ISMUON True average for real data")
-plt.savefig("img/trchi2PRatioreal.png")
+plt.savefig("img/trchi2plots/trchi2PRatioreal.png")
 plt.close()
 
 #Comparing the average TRCHI2 fit of ISMUON = True AND ISMUON = False, ISO
@@ -75,7 +75,7 @@ ratio = (falseInterceptISO + falseSlopePT*x)/(trueInterceptISO + trueSlopeISO*x)
 plt.plot(x, ratio)
 plt.xlabel("Isolation (GeV)")
 plt.title("Ratio of ISMUON False to ISMUON True average for real data")
-plt.savefig("img/ISOPRatioreal.png")
+plt.savefig("img/trchi2plots/ISOPRatioreal.png")
 plt.close()
 
 
@@ -85,25 +85,25 @@ plt.close()
 #ISMUON FALSE, PT
 falseInterceptPT, falseSlopePT = plotter(simQCD, "P", "mu_TRCHI2DOF", False, 4)
 plt.title("Simulated QCD background with ISMUON = False")
-plt.savefig("img/TRCHI2vPsim.png")
+plt.savefig("img/trchi2plots/TRCHI2vPsim.png")
 plt.close()
 
 #ISMUON TRUE, PT
 trueInterceptPT, trueSlopePT = plotter(simQCD, "P", "mu_TRCHI2DOF", True, 4)
 plt.title("Simulated QCD background with ISMUON = True")
-plt.savefig("img/TRCHI2vP_TRUEsim.png")
+plt.savefig("img/trchi2plots/TRCHI2vP_TRUEsim.png")
 plt.close()
 
 #ISMUON FALSE, ISO
 falseInterceptISO, falseSlopeISO = plotter(simQCD, "P", "mu_PTSUMCONE040", False, 200)
 plt.title("Simulated QCD background with ISMUON = False")
-plt.savefig("img/ISOvPsim.png")
+plt.savefig("img/trchi2plots/ISOvPsim.png")
 plt.close()
 
 #ISMUON TRUE, ISO
 trueInterceptISO, trueSlopeISO = plotter(simQCD, "P", "mu_PTSUMCONE040", True, 200)
 plt.title("Simulated QCD background with ISMUON = True")
-plt.savefig("img/ISOvP_TRUEsim.png")
+plt.savefig("img/trchi2plots/ISOvP_TRUEsim.png")
 plt.close()
 ###############
 #Comparing the average TRCHI2 fit of ISMUON = True AND ISMUON = False, PT
@@ -111,7 +111,7 @@ ratio = (falseInterceptPT + falseSlopePT*x)/(trueInterceptPT + trueSlopePT*x)
 plt.plot(x, ratio)
 plt.xlabel("pT (GeV)")
 plt.title("Ratio of ISMUON False to ISMUON True average for sim data")
-plt.savefig("img/trchi2PRatiosim.png")
+plt.savefig("img/trchi2plots/trchi2PRatiosim.png")
 plt.close()
 
 #Comparing the average TRCHI2 fit of ISMUON = True AND ISMUON = False, ISO
@@ -119,5 +119,5 @@ ratio = (falseInterceptISO + falseSlopeISO*x)/(trueInterceptISO + trueSlopeISO*x
 plt.plot(x, ratio)
 plt.xlabel("Isolation (GeV)")
 plt.title("Ratio of ISMUON False to ISMUON True average for sim data")
-plt.savefig("img/ISOPRatiosim.png")
+plt.savefig("img/trchi2plots/ISOPRatiosim.png")
 plt.close()

@@ -22,7 +22,7 @@ plt.legend()
 plt.xlabel("pT (GeV)")
 plt.ylabel("Normalised Counts")
 plt.title("QCD simulation comparison of all protons to those with ISMUON = True")
-plt.savefig("img/protonComparison.png")
+plt.savefig("img/protonEfficiency/protonComparison.png")
 plt.close()
 
 efficiency = trueCounts/allCounts
@@ -38,6 +38,6 @@ plt.legend()
 plt.xlabel("pT (GeV)")
 plt.ylabel("Efficiency (%)")
 plt.title("Proton Efficiency")
-plt.savefig("img/protonEfficiency.png")
+plt.savefig("img/protonEfficiency/protonEfficiency.png")
 plt.close()
 

@@ -37,7 +37,7 @@ WsimTRCHI2 = WsimTRCHI2[isWMuon == True]
 # plt.ylabel("TRCHI2")
 # plt.xlabel("IPCHI2")
 # plt.title("Real W data")
-# plt.savefig("img/real_trVSipCHI")
+# plt.savefig("img/chi2plots/real_trVSipCHI")
 
 # plt.close()
 
@@ -47,7 +47,7 @@ WsimTRCHI2 = WsimTRCHI2[isWMuon == True]
 # plt.ylabel("TRCHI2")
 # plt.xlabel("IPCHI2")
 # plt.title("Simulation QCD data")
-# plt.savefig("img/simQCD_trVSipCHI")
+# plt.savefig("img/chi2plots/simQCD_trVSipCHI")
 
 # plt.close()
 
@@ -57,7 +57,7 @@ WsimTRCHI2 = WsimTRCHI2[isWMuon == True]
 # plt.ylabel("TRCHI2")
 # plt.xlabel("IPCHI2")
 # plt.title("Simulation W data")
-# plt.savefig("img/simW_trVSipCHI")
+# plt.savefig("img/chi2plots/simW_trVSipCHI")
 
 # plt.close()
 
@@ -73,7 +73,7 @@ plt.legend()
 plt.xlabel("IPCHI2")
 plt.ylabel("Normalised Counts")
 plt.title("IPCHI2 comparison")
-plt.savefig("img/ipchi2")
+plt.savefig("img/chi2plots/ipchi2")
 
 plt.close()
 
@@ -87,7 +87,7 @@ plt.vlines(1, 0, 1.75)
 plt.xlabel("TRCHI2")
 plt.ylabel("Normalised Counts")
 plt.title("TRCHI2 comparison")
-plt.savefig("img/trchi2")
+plt.savefig("img/chi2plots/trchi2")
 
 plt.close()
 
@@ -101,7 +101,7 @@ plt.vlines(1, 0, 1.75)
 plt.xlabel("TRCHI2")
 plt.ylabel("Normalised Counts")
 plt.title("TRCHI2 comparison without type 0 particles")
-plt.savefig("img/trchi2_new")
+plt.savefig("img/chi2plots/trchi2_new")
 
 plt.close()
 
@@ -114,7 +114,7 @@ plt.legend()
 plt.xlabel("IPCHI2")
 plt.ylabel("Normalised Counts")
 plt.title("IPCHI2 comparison")
-plt.savefig("img/ipchi2logscale")
+plt.savefig("img/chi2plots/ipchi2logscale")
 plt.close()
 
 #Plot of the real, QCD sim and W sim log(IPCHI2) data
@@ -126,5 +126,5 @@ plt.legend()
 plt.xlabel("log10(IPCHI2)")
 plt.ylabel("Normalised Counts")
 plt.title("IPCHI2 comparison")
-plt.savefig("img/ipchi2log10")
+plt.savefig("img/chi2plots/ipchi2log10")
 plt.close()

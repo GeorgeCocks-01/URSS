@@ -13,7 +13,7 @@ def plotter(key, xMin, xMax, xVar, units = ""):
   plt.title("Trigger efficiency of QCD simulation data")
   plt.xlabel(xVar + " " + units)
   plt.ylabel("Trigger Efficiency (%)")
-  plt.savefig("img/trigger" + xVar)
+  plt.savefig("img/triggerEfficiency/trigger" + xVar)
   plt.close()
 
 with uproot.open("/storage/epp2/phshgg/Public/DVTuples__v24g/13TeV_2017_29r2_Up_QcdBgdPt18GeV_Sim09k.root:WpNoMuID/DecayTree") as file:

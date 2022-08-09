@@ -11,7 +11,7 @@ plt.hist(mu_PT, bins = 200, range = [10, 60], histtype = 'step')
 plt.title("pT distribution of $\mu$ with enriched background")
 plt.ylabel("Counts")
 plt.xlabel("pT (GeV)")
-plt.savefig("img/enrichedmu_PT")
+plt.savefig("img/enrichedW/enrichedmu_PT")
 
 plt.figure()
 
@@ -21,5 +21,5 @@ plt.hist(mu_PTSUMCONE040, bins = 200, range = [-2, 140], histtype = 'step')
 plt.title("pT distribution of particles in a cone around $\mu$ with enriched background")
 plt.ylabel("Counts")
 plt.xlabel("pT (GeV)")
-plt.savefig("img/enrichedmu_PTSUMCONE040")
+plt.savefig("img/enrichedW/enrichedmu_PTSUMCONE040")
 

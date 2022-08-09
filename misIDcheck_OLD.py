@@ -38,7 +38,7 @@ def compositeIntegral(p, prefac1, prefac2, length = None, mass = None, tau = Non
 # plt.plot(pRange, integral(pRange, kaonMass, kaonTau, kaonbfrac, 5), label = "Kaon")
 # plt.legend()
 
-# plt.savefig("img/misIDcheck.png")
+# plt.savefig("img/misID/misIDcheck.png")
 # plt.close()
 
 #Fit the QCD simulation data to the theoretical pion and kaon plots (above) to give the length
@@ -84,7 +84,7 @@ pRange = np.linspace(55, 200, 1000)
 plt.plot(pRange, integral(pRange, kaonMass, kaonTau, kaonbfrac, kaonLength), label = "Kaon Fit")
 plt.plot(pRange, integral(pRange, pionMass, pionTau, pionbfrac, pionLength), label = "Pion Fit")
 plt.legend()
-plt.savefig("img/misIDfit.png")
+plt.savefig("img/misID/misIDfit.png")
 plt.close()
 
 
@@ -103,7 +103,7 @@ plt.close()
 # plt.plot(pRange, compositeIntegral(pRange, kaonMass, kaonTau, kaonbfrac, kaonLength, 0.85, 0.25), label = "Kaon")
 # plt.legend()
 
-# plt.savefig("img/misIDcheckcomposite.png")
+# plt.savefig("img/misID/misIDcheckcomposite.png")
 # plt.close()
 
 
@@ -140,7 +140,7 @@ plt.legend(loc = "upper center")
 plt.ylabel("Percent mislabeled")
 plt.xlabel("P (GeV)")
 plt.title("Fitting QCD simulation misID data with punch through to get length")
-plt.savefig("img/misIDcompositefit.png")
+plt.savefig("img/misID/misIDcompositefit.png")
 plt.close()
 
 
@@ -164,5 +164,5 @@ plt.legend()
 plt.ylabel("Normalised Counts")
 plt.xlabel("pT (GeV)")
 plt.title("Comparing 1/P weights to Composite function weights")
-plt.savefig("img/misIDWeightsComparison")
+plt.savefig("img/misID/misIDWeightsComparison")
 plt.close()

@@ -11,7 +11,7 @@ plt.hist(mu_PT, bins = 200, range = [10, 125], histtype = 'step')
 plt.title("pT distribution of $\mu$ for simulated event")
 plt.ylabel("Counts")
 plt.xlabel("pT (GeV)")
-plt.savefig("img/simWmu_PT")
+plt.savefig("img/simulatedW/simWmu_PT")
 
 plt.figure()
 
@@ -22,6 +22,6 @@ plt.hist(mu_PTSUMCONE040, bins = 200, range = [0, 12], histtype = 'step')
 plt.title("pT distribution of particles in a cone around $\mu$ for simulated event")
 plt.ylabel("Counts")
 plt.xlabel("pT (GeV)")
-plt.savefig("img/simWmu_PTSUMCONE040")
+plt.savefig("img/simulatedW/simWmu_PTSUMCONE040")
 
 plt.figure()

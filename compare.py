@@ -21,7 +21,7 @@ plt.legend()
 plt.title("muon pT of background rich data vs. simulated QCD data")
 plt.ylabel("Normalised Counts")
 plt.xlabel("pT (GeV)")
-plt.savefig("img/compare_PT")
+plt.savefig("img/compare/compare_PT")
 
 plt.figure()
 
@@ -32,7 +32,7 @@ plt.legend()
 plt.title("isolation of background rich data vs. simulated QCD data")
 plt.ylabel("Normalised Counts")
 plt.xlabel("isolation (GeV)")
-plt.savefig("img/compare_PTSUMCONE040")
+plt.savefig("img/compare/compare_PTSUMCONE040")
 
 plt.figure()
 
@@ -58,7 +58,7 @@ for i in range(0,2):
 
 plt.subplots_adjust(hspace = 0.3, wspace = 0.3)
 plt.legend(fontsize = "x-small")
-plt.savefig("img/compare")
+plt.savefig("img/compare/compare")
 
 start -= 20
 
