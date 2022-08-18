@@ -106,9 +106,9 @@ plt.close()
 
 ################################################
 #Comparing 1/P weights to weights with integrals
-qcd.loc[kaons, "weights"] = compositeIntegral(qcd.loc[kaons, "mu_PT"], *kaonParams, kaonMass, kaonTau, kaonbfrac)
-qcd.loc[pions, "weights"] = compositeIntegral(qcd.loc[pions, "mu_PT"], *pionParams, pionMass, pionTau, pionbfrac)
-qcd.loc[protons, "weights"] = compositeIntegral(qcd.loc[protons, "mu_PT"], *protonParams)
+qcd.loc[kaons, "weights"] = compositeIntegral(qcd.loc[kaons, "P"], *kaonParams, kaonMass, kaonTau, kaonbfrac)
+qcd.loc[pions, "weights"] = compositeIntegral(qcd.loc[pions, "P"], *pionParams, pionMass, pionTau, pionbfrac)
+qcd.loc[protons, "weights"] = compositeIntegral(qcd.loc[protons, "P"], *protonParams)
 
 plt.hist(qcd.loc[kaons, "mu_PT"], bins = 50, label = "Kaons with 1/P weights", weights = 1/qcd.loc[kaons, "P"], range = [20, 70], histtype = "step", density = True, color = "b")
 plt.hist(qcd.loc[pions, "mu_PT"], bins = 50, label = "Pions with 1/P weights", weights = 1/qcd.loc[pions, "P"], range = [20, 70], histtype = "step", density = True, color = "r")

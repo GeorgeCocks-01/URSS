@@ -1,3 +1,5 @@
 *.png
 setup.txt
 WmassMeasurement
+settings.json
+weightGenerator.py
