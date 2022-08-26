@@ -33,7 +33,7 @@ with uproot.open("/tmp/13TeV_2017_29r2_Up_QcdBgdPt18GeV_Sim09k.root:WpNoMuID/Dec
 #Fit the QCD simulation data to the theoretical pion and kaon plots (above) to give the length
 qcd["mu_PT"] = qcd["mu_PT"]/1000
 qcd = qcd.loc[qcd["mu_PT"] > 20]
-qcd["P"] = qcd["mu_PT"]*np.cosh(qcd["mu_ETA"])
+qcd["p"] = qcd["mu_PT"]*np.cosh(qcd["mu_ETA"])
 kaons = qcd["mu_TRUEID"] == 321
 pions = qcd["mu_TRUEID"] == 211
 kaons_misID = (kaons & (qcd["mu_ISMUON"] == True))
@@ -42,8 +42,8 @@ pions_misID = (pions & (qcd["mu_ISMUON"] == True))
 #Create dataframe for data to plot
 plottingData = pd.DataFrame(np.zeros((50, 4)), columns = ["kaons_frac", "pions_frac", "kaons_err", "pions_err"], dtype = float)
 
-plottingData[["kaons_frac", "kaons_err"]], kaons_bins = getFracErr(qcd.loc[kaons, "P"], qcd.loc[kaons_misID, "P"], 200)
-plottingData[["pions_frac", "pions_err"]], pions_bins = getFracErr(qcd.loc[pions, "P"], qcd.loc[pions_misID, "P"], 200)
+plottingData[["kaons_frac", "kaons_err"]], kaons_bins = getFracErr(qcd.loc[kaons, "p"], qcd.loc[kaons_misID, "p"], 200)
+plottingData[["pions_frac", "pions_err"]], pions_bins = getFracErr(qcd.loc[pions, "p"], qcd.loc[pions_misID, "p"], 200)
 
 plt.errorbar(x = kaons_bins[:-1], y = plottingData["kaons_frac"]*100, label = "Kaon data", yerr = plottingData["kaons_err"]*100)
 plt.errorbar(x = pions_bins[:-1], y = plottingData["pions_frac"]*100, label = "Pion data", yerr = plottingData["pions_err"]*100)
@@ -60,7 +60,7 @@ pRange = np.linspace(55, 200, 1000)
 plt.plot(pRange, integral(pRange, kaonLength, kaonMass, kaonTau, kaonbfrac), label = "Kaon Fit")
 plt.plot(pRange, integral(pRange, pionLength, pionMass, pionTau, pionbfrac), label = "Pion Fit")
 plt.legend()
-plt.xlabel("P (GeV)")
+plt.xlabel("p (GeV)")
 plt.ylabel("Percent Mislabeled")
 plt.title("Fitting QCD simulation misID data to get length")
 plt.savefig("img/misID/misIDfit.png")
@@ -73,9 +73,9 @@ protons = qcd["mu_TRUEID"] == 2212
 protons_misID = (protons & (qcd["mu_ISMUON"] == True))
 
 #Fitting the data on the log scale using the composite function of decay + log terms
-plottingData[["kaons_frac", "kaons_err"]], kaons_bins = getFracErr(qcd.loc[kaons, "P"], qcd.loc[kaons_misID, "P"], 1000)
-plottingData[["pions_frac", "pions_err"]], pions_bins = getFracErr(qcd.loc[pions, "P"], qcd.loc[pions_misID, "P"], 1000)
-plottingData[["protons_frac", "protons_err"]], protons_bins = getFracErr(qcd.loc[protons, "P"], qcd.loc[protons_misID, "P"], 1000)
+plottingData[["kaons_frac", "kaons_err"]], kaons_bins = getFracErr(qcd.loc[kaons, "p"], qcd.loc[kaons_misID, "p"], 1000)
+plottingData[["pions_frac", "pions_err"]], pions_bins = getFracErr(qcd.loc[pions, "p"], qcd.loc[pions_misID, "p"], 1000)
+plottingData[["protons_frac", "protons_err"]], protons_bins = getFracErr(qcd.loc[protons, "p"], qcd.loc[protons_misID, "p"], 1000)
 
 kaonParams, kaonCov = curve_fit(lambda p, kaonPrefac1, kaonPrefac2, kaonLength: compositeIntegral(p, kaonPrefac1, kaonPrefac2, kaonLength, kaonMass, kaonTau, kaonbfrac), kaons_bins[:-1], plottingData["kaons_frac"]*100, bounds = ((-np.inf, -np.inf, -np.inf), (np.inf, np.inf, 100)))
 
@@ -98,28 +98,44 @@ plt.plot(pRange, compositeIntegral(pRange, *protonParams), label = "Proton Fit",
 
 plt.legend(loc = "upper center")
 plt.ylabel("Percent mislabeled")
-plt.xlabel("P (GeV)")
+plt.xlabel("p (GeV)")
 plt.title("Fitting QCD simulation misID data with punch through to get length")
 plt.savefig("img/misID/misIDcompositefit.png")
 plt.close()
 
 
 ################################################
-#Comparing 1/P weights to weights with integrals
-qcd.loc[kaons, "weights"] = compositeIntegral(qcd.loc[kaons, "P"], *kaonParams, kaonMass, kaonTau, kaonbfrac)
-qcd.loc[pions, "weights"] = compositeIntegral(qcd.loc[pions, "P"], *pionParams, pionMass, pionTau, pionbfrac)
-qcd.loc[protons, "weights"] = compositeIntegral(qcd.loc[protons, "P"], *protonParams)
+#Comparing 1/p weights to weights with integrals
+qcd.loc[kaons, "weights"] = compositeIntegral(qcd.loc[kaons, "p"], *kaonParams, kaonMass, kaonTau, kaonbfrac)
+qcd.loc[pions, "weights"] = compositeIntegral(qcd.loc[pions, "p"], *pionParams, pionMass, pionTau, pionbfrac)
+qcd.loc[protons, "weights"] = compositeIntegral(qcd.loc[protons, "p"], *protonParams)
 
-plt.hist(qcd.loc[kaons, "mu_PT"], bins = 50, label = "Kaons with 1/P weights", weights = 1/qcd.loc[kaons, "P"], range = [20, 70], histtype = "step", density = True, color = "b")
-plt.hist(qcd.loc[pions, "mu_PT"], bins = 50, label = "Pions with 1/P weights", weights = 1/qcd.loc[pions, "P"], range = [20, 70], histtype = "step", density = True, color = "r")
-plt.hist(qcd.loc[protons, "mu_PT"], bins = 50, label = "Protons with no weight", range = [20, 70], histtype = "step", density = True, color = "g")
-plt.hist(qcd.loc[kaons, "mu_PT"], bins = 50, label = "Kaons with Composite weights", weights = qcd.loc[kaons, "weights"], range = [20, 70], histtype = "step", density = True, linestyle = "--", color = "b")
-plt.hist(qcd.loc[pions, "mu_PT"], bins = 50, label = "Pions with Composite weights", weights = qcd.loc[pions, "weights"], range = [20, 70], histtype = "step", density = True, linestyle = "--", color = "r")
-plt.hist(qcd.loc[protons, "mu_PT"], bins = 50, label = "Protons with Composite weights", weights = qcd.loc[protons, "weights"], range = [20, 70], histtype = "step", density = True, linestyle = "--", color = "g")
+plt.hist(qcd.loc[kaons, "mu_PT"], bins = 50, label = "Kaons with 1/p weights", weights = 1/qcd.loc[kaons, "p"], range = [20, 55], histtype = "step", density = True, color = "r")
+plt.hist(qcd.loc[kaons, "mu_PT"], bins = 50, label = "Kaons with misID weights", weights = qcd.loc[kaons, "weights"], range = [20, 55], histtype = "step", density = True, color = "b")
 
 plt.legend()
 plt.ylabel("Normalised Counts")
 plt.xlabel("pT (GeV)")
-plt.title("Comparing 1/P weights to Composite function weights")
-plt.savefig("img/misID/misIDWeightsComparison.png")
+plt.title("Comparing 1/p weights to Composite function weights for Kaons")
+plt.savefig("img/misID/misIDWeightsComparisonKaons.png")
+plt.close()
+
+plt.hist(qcd.loc[pions, "mu_PT"], bins = 50, label = "Pions with 1/p weights", weights = 1/qcd.loc[pions, "p"], range = [20, 55], histtype = "step", density = True, color = "r")
+plt.hist(qcd.loc[pions, "mu_PT"], bins = 50, label = "Pions with misID weights", weights = qcd.loc[pions, "weights"], range = [20, 55], histtype = "step", density = True, color = "b")
+
+plt.legend()
+plt.ylabel("Normalised Counts")
+plt.xlabel("pT (GeV)")
+plt.title("Comparing 1/p weights to Composite function weights for Pions")
+plt.savefig("img/misID/misIDWeightsComparisonPions.png")
+plt.close()
+
+plt.hist(qcd.loc[protons, "mu_PT"], bins = 50, label = "Protons with no weight", range = [20, 55], histtype = "step", density = True, color = "r")
+plt.hist(qcd.loc[protons, "mu_PT"], bins = 50, label = "Protons with misID weights", weights = qcd.loc[protons, "weights"], range = [20, 55], histtype = "step", density = True, color = "b")
+
+plt.legend()
+plt.ylabel("Normalised Counts")
+plt.xlabel("pT (GeV)")
+plt.title("Comparing no weights to Composite function weights for Protons")
+plt.savefig("img/misID/misIDWeightsComparisonProtons.png")
 plt.close()

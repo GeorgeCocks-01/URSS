@@ -9,19 +9,19 @@ with uproot.open("/tmp/13TeV_2017_29r2_Up_QcdBgdPt18GeV_Sim09k.root") as file:
   trueID = file["WpNoMuID/DecayTree/mu_TRUEID"].array(library = "np")
   ETA = file["WpNoMuID/DecayTree/mu_ETA"].array(library = "np")
 
-P = PT[PT > 20]*np.cosh(ETA[PT > 20])
+p = PT[PT > 20]*np.cosh(ETA[PT > 20])
 trueID = trueID[PT > 20]
 isMuon = isMuon[PT > 20]
 
-kaons_P = P[(trueID == 321)]
-pions_P = P[(trueID == 211)]
-protons_P = P[(trueID == 2212)]
-type0_P = P[(trueID == 0)]
+kaons_P = p[(trueID == 321)]
+pions_P = p[(trueID == 211)]
+protons_P = p[(trueID == 2212)]
+type0_P = p[(trueID == 0)]
 
-kaons_misID = P[(isMuon == True) & (trueID == 321)]
-pions_misID = P[(isMuon == True) & (trueID == 211)]
-protons_misID = P[(isMuon == True) & (trueID == 2212)]
-type0_misID = P[(isMuon == True) & (trueID == 0)]
+kaons_misID = p[(isMuon == True) & (trueID == 321)]
+pions_misID = p[(isMuon == True) & (trueID == 211)]
+protons_misID = p[(isMuon == True) & (trueID == 2212)]
+type0_misID = p[(isMuon == True) & (trueID == 0)]
 
 kaons_hist, kaons_bins = np.histogram(kaons_P, bins = 50, range = [55, 1000])
 pions_hist, pions_bins = np.histogram(pions_P, bins = 50, range = [55, 1000])
@@ -49,7 +49,7 @@ plt.errorbar(x = type0_bins[:-1], y = type0_frac*100, label = "type 0", yerr = t
 
 
 plt.legend(loc = "upper center")
-plt.xlabel("P (GeV)")
+plt.xlabel("p (GeV)")
 plt.ylabel("Percent Mislabeled")
 plt.title("Misidentified Particles in QCD Simulation data")
 plt.savefig("img/misID/misID.png")

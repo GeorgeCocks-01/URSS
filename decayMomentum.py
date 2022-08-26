@@ -29,8 +29,8 @@ piontest = 13*pionMass/(20*c)
 kaonBound = np.exp(-(13*kaonMass)/(20*c*kaonTau))
 pionBound = np.exp(-(13*pionMass)/(20*c*pionTau))
 
-print(kaonBound, pionBound)
-print(kaontest, piontest)
+# print(kaonBound, pionBound)
+# print(kaontest, piontest)
 
 #rng generator for exponential
 gen = np.random.default_rng()
@@ -49,12 +49,12 @@ simQCD.loc[kaons, "decayLength"] = c*simQCD.loc[kaons, "lifetime"]*kMom/kaonMass
 simQCD.loc[pions, "decayLength"] = c*simQCD.loc[pions, "lifetime"]*pMom/pionMass #np.sqrt(pionMass**2 + pMom**2/c**2)
 # print(simQCD.loc[kaons, "decayLength"])
 
-print(-c*kaonTau*np.log(kaonBound)*200/kaonMass)
+# print(-c*kaonTau*np.log(kaonBound)*200/kaonMass)
 
 #Only include hadrons which decay before the calorimeter (13m)
 simQCD = simQCD.loc[simQCD["decayLength"] < 13]
 
-print(len(simQCD.loc[kaons, "decayLength"]))
+# print(len(simQCD.loc[kaons, "decayLength"]))
 
 #change only P values which have decay length < 5m (i.e. before magnet)
 simQCD.loc[:, "adjusted_P"] = simQCD["mu_P"]
