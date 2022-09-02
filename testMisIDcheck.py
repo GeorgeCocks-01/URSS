@@ -33,8 +33,8 @@ with uproot.open("../gcocks-background-simulation/mW/data/tuples/Wm_QcdBgdPt18Ge
   qcd2 = file.arrays(["p", "mu_TRUEID", "mu_ISMUON"], aliases={"p": "mu_P", "mu_TRUEID": "mu_trueID", "mu_ISMUON": "mu_realIsMuon"}, library = "pd")
 
 qcd = qcd.append(qcd2, ignore_index = True)
-rangeMin = qcd["p"].min()
-rangeMax = qcd["p"].max()
+rangeMin = 50#qcd["p"].min()
+rangeMax = 1000#qcd["p"].max()
 print("range: ", rangeMin, "to ", rangeMax)
 
 kaons = qcd["mu_TRUEID"] == 321
@@ -77,6 +77,6 @@ plt.plot(pRange, compositeIntegral(pRange, *protonParams), label = "Proton Fit",
 plt.legend(loc = "upper center")
 plt.ylabel("Percent mislabeled")
 plt.xlabel("p (GeV)")
-plt.title("Fitting QCD simulation misID data with punch through to get length")
+plt.title("Fitting QCD Tuples to get Parameters for Species Dependent Weights")
 plt.savefig("img/test/misIDcheck.png")
 plt.close()
