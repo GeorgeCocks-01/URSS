@@ -27,8 +27,10 @@ def compositeIntegral(p, prefac1, prefac2, length = None, mass = None, tau = Non
   else:
     return 100*bfrac*(1 - np.exp(-(length*mass)/(c*p*tau))) + prefac1*p + prefac2
 
+
 with uproot.open("/tmp/13TeV_2017_29r2_Up_QcdBgdPt18GeV_Sim09k.root:WpNoMuID/DecayTree") as file:
   qcd = file.arrays(["mu_PT", "mu_ISMUON", "mu_TRUEID", "mu_ETA"], library = "pd")
+
 
 #Fit the QCD simulation data to the theoretical pion and kaon plots (above) to give the length
 qcd["mu_PT"] = qcd["mu_PT"]/1000
@@ -86,12 +88,15 @@ protonParams, protonCov = curve_fit(lambda p, protonPrefac1, protonPrefac2: comp
 print("kaon parameters:", kaonParams)
 print("pion parameters:", pionParams)
 print("proton parameters:", protonParams)
+print("proton cov: ", protonCov)
 
 pRange = np.linspace(55, 1000, 10000)
 plt.errorbar(x = kaons_bins[:-1], y = plottingData["kaons_frac"]*100, label = "Kaon data", yerr = plottingData["kaons_err"]*100)
 plt.errorbar(x = pions_bins[:-1], y = plottingData["pions_frac"]*100, label = "Pion data", yerr = plottingData["pions_err"]*100)
 plt.errorbar(x = protons_bins[:-1], y = plottingData["protons_frac"]*100, label = "Proton data", yerr = plottingData["protons_err"]*100)
 plt.xscale("log")
+
+
 plt.plot(pRange, compositeIntegral(pRange, *kaonParams, kaonMass, kaonTau, kaonbfrac), label = "Kaon Fit")
 plt.plot(pRange, compositeIntegral(pRange, *pionParams, pionMass, pionTau, pionbfrac), label = "Pion Fit")
 plt.plot(pRange, compositeIntegral(pRange, *protonParams), label = "Proton Fit", color = "k")
