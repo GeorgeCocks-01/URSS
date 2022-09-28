@@ -3,16 +3,26 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.colors import LogNorm
 
-with uproot.open("/tmp/13TeV_2018_34_Up_EW.root") as file:
+with uproot.open("/storage/epp2/phshgg/Public/DVTuples__v24g/13TeV_2018_34_Up_EW.root") as file:
   mu_PT = file["WpIso/DecayTree/mu_PT"].array(library = "np")/1000
   mu_PTSUMCONE040 = file["WpIso/DecayTree/mu_PTSUMCONE040"].array(library = "np")/1000
 
+mu_PT = mu_PT[mu_PT >= 20]
+
 #plots the transverse momentum of the muons from possible W decays
-plt.hist(mu_PT, bins = 200, range = [15, 75], histtype = 'step')
+plt.hist(mu_PT, bins = 200, range = [20, 60], histtype = 'step')
 plt.title("pT distribution of $\mu$")
 plt.ylabel("Counts")
 plt.xlabel("pT (GeV)")
 plt.savefig("img/WDecay/Wmu_PT")
+
+plt.close()
+
+plt.hist(1/mu_PT, bins = 200, histtype = 'step')
+plt.title("1/pT distribution of $\mu$")
+plt.ylabel("Counts")
+plt.xlabel("1/pT (1/GeV)")
+plt.savefig("img/WDecay/test.png")
 
 plt.close()
 

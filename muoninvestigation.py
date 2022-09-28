@@ -2,14 +2,14 @@ import uproot
 import numpy as np
 import matplotlib.pyplot as plt
 
-with uproot.open("/tmp/13TeV_2018_34_Up_EW.root") as file:
+with uproot.open("/storage/epp2/phshgg/Public/DVTuples__v24g/13TeV_2018_34_Up_EW.root") as file:
   real_PT = file["WpNoMuID/DecayTree/mu_PT"].array(library = "np")/1000
   real_PTSUMCONE040 = file["WpNoMuID/DecayTree/mu_PTSUMCONE040"].array(library = "np")/1000
   isRealMuon = file["WpNoMuID/DecayTree/mu_ISMUON"].array(library = "np")
   realIPCHI2 = file["WpNoMuID/DecayTree/mu_MIPCHI2DV"].array(library = "np")
   realTRCHI2 = file["WpNoMuID/DecayTree/mu_TRCHI2DOF"].array(library = "np")
   realETA = file["WpNoMuID/DecayTree/mu_ETA"].array(library = "np")
-with uproot.open("/tmp/13TeV_2017_29r2_Up_QcdBgdPt18GeV_Sim09k.root") as file:
+with uproot.open("/storage/epp2/phshgg/Public/DVTuples__v24g/13TeV_2017_29r2_Up_QcdBgdPt18GeV_Sim09k.root") as file:
   QCD_PT = file["WpNoMuID/DecayTree/mu_PT"].array(library = "np")/1000
   QCD_PTSUMCONE040 = file["WpNoMuID/DecayTree/mu_PTSUMCONE040"].array(library = "np")/1000
   isSimMuon = file["WpNoMuID/DecayTree/mu_ISMUON"].array(library = "np")
@@ -26,7 +26,7 @@ ipLim = 4
 trLim = 2
 
 fig, ax = plt.subplots(2, 2)
-fig.suptitle("Isolation comparison at for IPCHI2 < 4 and TRCHI2 < 2")
+fig.suptitle("Isolation comparison at for IPCHI2 < 4, TRCHI2 < 2 and 2 < ETA < 4.5")
 
 for i in range(0,2):
   for j in range(0,2):

@@ -4,11 +4,11 @@ import uproot
 import numpy as np
 import matplotlib.pyplot as plt
 
-with uproot.open("/tmp/13TeV_2018_34_Up_EW.root") as file:
+with uproot.open("/storage/epp2/phshgg/Public/DVTuples__v24g/13TeV_2018_34_Up_EW.root") as file:
   real_PT = file["WpNoMuID/DecayTree/mu_PT"].array(library = "np")/1000
   real_PTSUMCONE040 = file["WpNoMuID/DecayTree/mu_PTSUMCONE040"].array(library = "np")/1000
   isMuon = file["WpNoMuID/DecayTree/mu_ISMUON"].array(library = "np")
-with uproot.open("/tmp/13TeV_2017_29r2_Up_QcdBgdPt18GeV_Sim09k.root") as file:
+with uproot.open("/storage/epp2/phshgg/Public/DVTuples__v24g/13TeV_2017_29r2_Up_QcdBgdPt18GeV_Sim09k.root") as file:
   QCD_PT = file["WpNoMuID/DecayTree/mu_PT"].array(library = "np")/1000
   QCD_PTSUMCONE040 = file["WpNoMuID/DecayTree/mu_PTSUMCONE040"].array(library = "np")/1000
 
@@ -51,7 +51,7 @@ for i in range(0,2):
     ax[i, j].hist(cropped_QCD_PTSUMCONE040, bins = 50, range = [-2, 140], histtype = 'step', density = True, label = "Simulated QCD")
     title = str(start) + " < pT < " + str(start + 5)
     ax[i, j].set_title(title, fontsize = "small")
-    plt.setp(ax[-1, :], xlabel='isolation')
+    plt.setp(ax[-1, :], xlabel='isolation (GeV)')
     plt.setp(ax[:, 0], ylabel='Normalised Counts')
 
     start += 5
